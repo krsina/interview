@@ -7,6 +7,8 @@ class Settings(BaseSettings):
     db_pool_size: int = 5
     db_max_overflow: int = 10
     api_prefix: str = "/api/v1"
+    cache_ttl_seconds: int = 60
+    cache_max_size: int = 10_000
 
     model_config = {"env_file": ".env", "env_file_encoding": "utf-8"}
 

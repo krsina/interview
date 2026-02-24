@@ -35,6 +35,17 @@ app = FastAPI(
 app.include_router(flags.router, prefix=settings.api_prefix)
 
 
+@app.get("/", tags=["Root"])
+async def root() -> dict:
+    return {
+        "message": "Feature Flag API",
+        "docs": "/docs",
+        "redoc": "/redoc",
+        "health": "/health",
+        "api": f"{settings.api_prefix}/flags/",
+    }
+
+
 @app.exception_handler(SQLAlchemyError)
 async def sqlalchemy_exception_handler(
     request: Request,
@@ -62,3 +73,7 @@ async def general_exception_handler(
 @app.get("/health", tags=["Health"])
 async def health_check() -> dict:
     return {"status": "healthy"}
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

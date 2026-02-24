@@ -38,3 +38,37 @@ class FeatureFlagListResponse(BaseModel):
 
 class MessageResponse(BaseModel):
     detail: str
+
+
+# --- User overrides ---
+
+
+class FlagUserOverrideSet(BaseModel):
+    is_enabled: bool
+
+
+class FlagUserOverrideResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: uuid.UUID
+    flag_id: uuid.UUID
+    user_id: str
+    is_enabled: bool
+    created_at: datetime
+    updated_at: datetime
+
+
+class FlagUserOverrideListResponse(BaseModel):
+    items: list[FlagUserOverrideResponse]
+    total: int
+
+
+# --- Evaluate ---
+
+
+class EvaluateResponse(BaseModel):
+    enabled: bool
+    flag_id: uuid.UUID
+    flag_name: str
+    user_id: str
+    source: str = Field(..., description="override | default")
